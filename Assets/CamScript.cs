@@ -9,6 +9,7 @@ public class CamScript : MonoBehaviour {
 	public Vector3 rotation;
 
 	public float hRot;
+    public float StickMultiplier;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,7 @@ public class CamScript : MonoBehaviour {
 		gameObject.transform.position = character.transform.position + target;
 		gameObject.transform.eulerAngles = rotation;
 
-		hRot += Input.GetAxis ("Mouse X");
+		hRot += Input.GetAxis ("Mouse X") + Input.GetAxis("RightStick") * StickMultiplier;
 
 		gameObject.transform.LookAt (character.transform.position);
 		gameObject.transform.eulerAngles += rotation;
