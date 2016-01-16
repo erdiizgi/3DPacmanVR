@@ -7,11 +7,14 @@ public class GameController : MonoBehaviour
     public HeroController Hero;
     public Maze Maze;
     public int CreatedPills;
+    public LevelController LevelControllerObject;
 
 
     // Use this for initialization
     void Start()
     {
+        LevelControllerObject = FindObjectOfType<LevelController>();
+        Maze.useLevel = LevelControllerObject.GetCurrent();
         Maze.ReloadMap();
     }
 
@@ -19,6 +22,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
         if (Hero.Score == CreatedPills)
-            SceneManager.LoadScene("Win");
+            LevelControllerObject.LoadNextLevel();
     }
 }

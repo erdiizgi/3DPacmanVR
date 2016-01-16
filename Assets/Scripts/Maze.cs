@@ -81,6 +81,11 @@ public class Maze : MonoBehaviour
                             if (Application.isPlaying)
                                 spawnedItems.Add(Instantiate(GhostPrefab, new Vector3(x, 0, z), Quaternion.identity));
                             break;
+                        case 'O':
+                            spawnedItems.Add(Instantiate(BoostPrefab, new Vector3(x, 0, z), Quaternion.identity));
+                            spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
+
+                            break;
                     }
                     x += WallSize;
                 }
