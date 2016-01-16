@@ -23,4 +23,24 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
         transform.Rotate(Vector3.up, Input.GetAxis("RightStick"));
     }
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("enter");
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+        }
+
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+        }
+
+    }
 }

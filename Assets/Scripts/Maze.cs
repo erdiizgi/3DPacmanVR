@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class Maze : MonoBehaviour
 {
@@ -9,13 +11,15 @@ public class Maze : MonoBehaviour
     public GameObject WallPrefab;
     public GameObject FloorPrefab;
     public GameObject PlayerPrefab;
-	public GameObject PillPrefab;
 
     public float WallSize;
+
+    private List<Object> spawnedItems;
 
     // Use this for initialization
     private void Start()
     {
+        spawnedItems = new List<Object>();
         ReloadMap();
     }
 
@@ -38,25 +42,24 @@ public class Maze : MonoBehaviour
                     switch (character)
                     {
                         case '#':
-                            Instantiate(WallPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                            spawnedItems.Add(Instantiate(WallPrefab, new Vector3(x, 0, z), Quaternion.identity));
                             break;
 
                         case ' ':
-                            Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
+                            spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
                             break;
 
-					    case 'G':
-							Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
-							break;
-
-					    case '.':
-							Instantiate(PillPrefab, new Vector3(x, 0, z), Quaternion.identity);
-							Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
-						    break;
-
                         case 'P':
-                            Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity);
-						    Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
+                            spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
+
+                            if (Application.isPlaying)
+                                spawnedItems.Add(Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity));
+
+                            break;
+
+                        case 'G':
+                            //Instantiate(GhostPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                            spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
                             break;
                     }
                     x += WallSize;
@@ -71,10 +74,25 @@ public class Maze : MonoBehaviour
         // on what didn't work
         catch (Exception e)
         {
-            Debug.LogError(e);
+            if (e != null)
+                Debug.LogError(e);
             return false;
         }
 
         return true;
+    }
+
+    public void ClearMaze()
+    {
+        if (spawnedItems == null)
+            spawnedItems = new List<Object>();
+
+        for (int i = 0; i < spawnedItems.Count; i++)
+        {
+            if (Application.isEditor)
+                DestroyImmediate(spawnedItems[i]);
+            else
+                Destroy(spawnedItems[i]);
+        }
     }
 }
