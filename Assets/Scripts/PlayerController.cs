@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public float MaxTorqueForce;
     public float TorqueForceCoolDown;
 
+	private GameObject camera;
+
     // Use this for initialization
     void Start()
     {
@@ -23,17 +25,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+		if (camera == null) {
+			camera = GameObject.Find ("Camera");
+		}
 
 
     }
 
     void FixedUpdate()
     {
-        var forward = transform.forward * Input.GetAxis("Vertical");
-        var right = transform.right * Input.GetAxis("Horizontal");
+		if (camera == null)
+			return;
+		
+        var forward = camera.transform.forward * Input.GetAxis("Vertical");
+		forward.y = 0;
+
+        var right = camera.transform.right * Input.GetAxis("Horizontal");
+		right.y = 0;
+
         rBody.velocity = (forward + right) * MoveSpeed;
-        rBody.angularVelocity = Vector3.up * 10 * Input.GetAxis("Mouse X");
+        //rBody.angularVelocity = Vector3.up * 10 * Input.GetAxis("Mouse X");
 
     }
 
