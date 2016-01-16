@@ -1,79 +1,60 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Text;
+﻿using System;
 using System.IO;
-using System; 
+using System.Text;
+using UnityEngine;
 
-public class Maze : MonoBehaviour {
+public class Maze : MonoBehaviour
+{
+    public TextAsset useLevel;
+    public GameObject WallPrefab;
+    public GameObject FloorPrefab;
+    public GameObject PlayerPrefab;
 
-    public string fileName;
+    public float WallSize;
 
-	public GameObject wallPrefab;
+    // Use this for initialization
+    private void Start()
+    {
+        ReloadMap();
+    }
 
-	private float x;
-	private float z;
-
-
-	// Use this for initialization
-	void Start () {
-		x = 0;
-		z = 0;
-		this.Load ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    private bool Load()
+    public bool ReloadMap()
     {
         // Handle any problems that might arise when reading the text
         try
         {
-            string line;
-            // Create a new StreamReader, tell it which file to read and what encoding the file
-            // was saved as
-			StreamReader theReader = new StreamReader("Assets/Resources/" + fileName + ".txt", Encoding.Default);
-            // Immediately clean up the reader after this block of code is done.
-            // You generally use the "using" statement for potentially memory-intensive objects
-            // instead of relying on garbage collection.
-            // (Do not confuse this with the using directive for namespace at the 
-            // beginning of a class!)
-            using (theReader)
+
+            if (useLevel == null)
+                return false;
+
+            float x = 0, z = 0;
+
+
+            foreach (var line in useLevel.text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
-                // While there's lines left in the text file, do this:
-                do
+                foreach (var character in line)
                 {
-                    line = theReader.ReadLine();
-
-                    if (line != null)
+                    switch (character)
                     {
-						for(int i = 0 ; i < line.Length ; i++){
-							string cur = line.Substring(i, 1);
+                        case '#':
+                            Instantiate(WallPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                            break;
 
-							switch(cur){
-							case "#":
-								Instantiate(wallPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                        case ' ':
+                            Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity);
+                            break;
 
-								x = x + 2;
-								break;
-							case " ":
-								x = x + 2;
-								break;
-							}
-						}
-
-						z = z + 2;
-						x = 0;
-
+                        case 'P':
+                            Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                            break;
                     }
+                    x += WallSize;
                 }
-                while (line != null);
-                // Done reading, close the reader and return true to broadcast success    
-                theReader.Close();
-                return true;
+
+                z += WallSize;
+                x = 0;
             }
+
         }
         // If anything broke in the try block, we throw an exception with information
         // on what didn't work
@@ -82,6 +63,7 @@ public class Maze : MonoBehaviour {
             Debug.LogError(e);
             return false;
         }
+
+        return true;
     }
- 
 }
