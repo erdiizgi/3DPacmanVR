@@ -11,6 +11,7 @@ public class Maze : MonoBehaviour
     public GameObject WallPrefab;
     public GameObject FloorPrefab;
     public GameObject PlayerPrefab;
+    public GameObject GhostPrefab;
 
     public float WallSize;
 
@@ -58,8 +59,10 @@ public class Maze : MonoBehaviour
                             break;
 
                         case 'G':
-                            //Instantiate(GhostPrefab, new Vector3(x, 0, z), Quaternion.identity);
                             spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
+
+                            if (Application.isPlaying)
+                                spawnedItems.Add(Instantiate(GhostPrefab, new Vector3(x, 0, z), Quaternion.identity));
                             break;
                     }
                     x += WallSize;
