@@ -6,10 +6,18 @@ public class PlayerController : MonoBehaviour
 
     public float MoveSpeed;
 
+    private bool hasColision;
+    private Rigidbody rBody;
+
+    private float torqueForce;
+
+    public float MaxTorqueForce;
+    public float TorqueForceCoolDown;
+
     // Use this for initialization
     void Start()
     {
-
+        rBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -17,30 +25,28 @@ public class PlayerController : MonoBehaviour
     {
 
 
-        var moveVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * MoveSpeed;
-        transform.Translate(moveVector);
 
-        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
-        transform.Rotate(Vector3.up, Input.GetAxis("RightStick"));
+    }
+
+    void FixedUpdate()
+    {
+        var forward = transform.forward * Input.GetAxis("Vertical");
+        var right = transform.right * Input.GetAxis("Horizontal");
+        rBody.velocity = (forward + right) * MoveSpeed;
+        rBody.angularVelocity = Vector3.up * 10 * Input.GetAxis("Mouse X");
+
     }
 
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("enter");
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-        }
+        hasColision = true;
 
     }
 
     void OnCollisionExit(Collision collision)
     {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-        }
+        hasColision = false;
 
     }
 }
