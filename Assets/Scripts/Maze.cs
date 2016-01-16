@@ -9,6 +9,7 @@ public class Maze : MonoBehaviour
     public GameObject WallPrefab;
     public GameObject FloorPrefab;
     public GameObject PlayerPrefab;
+	public GameObject PillPrefab;
 
     public float WallSize;
 
@@ -41,11 +42,21 @@ public class Maze : MonoBehaviour
                             break;
 
                         case ' ':
-                            Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity);
+                            Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
                             break;
+
+					    case 'G':
+							Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
+							break;
+
+					    case '.':
+							Instantiate(PillPrefab, new Vector3(x, 0, z), Quaternion.identity);
+							Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
+						    break;
 
                         case 'P':
                             Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity);
+						    Instantiate(FloorPrefab, new Vector3(x, -WallSize/2, z), Quaternion.identity);
                             break;
                     }
                     x += WallSize;
