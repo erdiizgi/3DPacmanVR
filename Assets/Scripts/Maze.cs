@@ -36,7 +36,7 @@ public class Maze : MonoBehaviour
                 return false;
 
             float x = 0, z = 0;
-
+            var createdPills = 0;
 
             foreach (var line in useLevel.text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -49,7 +49,7 @@ public class Maze : MonoBehaviour
                             break;
 
                         case ' ':
-                            spawnedItems.Add(Instantiate(PillPrefab, new Vector3(x, 0, z), Quaternion.identity));
+                            createPill(x, z, ref createdPills);
                             spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
                             break;
                         case '.':
@@ -75,7 +75,7 @@ public class Maze : MonoBehaviour
                             break;
 
                         case 'G':
-                            spawnedItems.Add(Instantiate(PillPrefab, new Vector3(x,0, z), Quaternion.identity));
+                            createPill(x, z, ref createdPills);
                             spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
 
                             if (Application.isPlaying)
@@ -89,6 +89,8 @@ public class Maze : MonoBehaviour
                 x = 0;
             }
 
+            Controller.CreatedPills = createdPills;
+
         }
         // If anything broke in the try block, we throw an exception with information
         // on what didn't work
@@ -100,6 +102,12 @@ public class Maze : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void createPill(float x, float z, ref int createdPills)
+    {
+        spawnedItems.Add(Instantiate(PillPrefab, new Vector3(x, 0, z), Quaternion.identity));
+        createdPills++;
     }
 
     public void ClearMaze()
