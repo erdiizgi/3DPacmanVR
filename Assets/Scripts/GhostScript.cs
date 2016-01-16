@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GhostScript : MonoBehaviour
 {
+    private GameController lvlControl;
+
     public float speed;
 
     Vector3 forward;
@@ -14,19 +16,21 @@ public class GhostScript : MonoBehaviour
     void Start()
     {
         forward = new Vector3(1f, 0f, 0f);
-        forwards = new Vector3[] {
+        forwards = new[] {
             new Vector3(1f, 0f, 0f),
             new Vector3(0f, 0f, -1f),
             new Vector3(-1f, 0f, 0f),
             new Vector3(0f, 0f, 1f),
         };
         rotation = 0f;
-        rotations = new float[] {
+        rotations = new[] {
             0f,
             90f,
             180f,
             360f
         };
+
+        lvlControl = FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
@@ -39,6 +43,15 @@ public class GhostScript : MonoBehaviour
     {
         if (collider.GetComponent<PillScript>() != null)
             return;
+
+
+        var pc = collider.GetComponent<HeroController>();
+        if (pc != null)
+        {
+            lvlControl.LevelControllerObject.FailLevel();
+            return;
+        }
+
         Debug.Log("Enter " + collider.gameObject.name + " X: " + transform.position.x + " Z: " + transform.position.z);
         float newRotation = rotation;
         Vector3 newForward = forward;
