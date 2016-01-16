@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,6 +10,9 @@ public class Maze : MonoBehaviour
     public GameObject FloorPrefab;
     public GameObject PlayerPrefab;
     public GameObject GhostPrefab;
+    public GameObject PillPrefab;
+    public GameObject BoostPrefab;
+    public GameController Controller;
 
     public float WallSize;
 
@@ -21,11 +22,12 @@ public class Maze : MonoBehaviour
     private void Start()
     {
         spawnedItems = new List<Object>();
-        ReloadMap();
     }
 
     public bool ReloadMap()
     {
+        ClearMaze();
+
         // Handle any problems that might arise when reading the text
         try
         {
@@ -47,18 +49,33 @@ public class Maze : MonoBehaviour
                             break;
 
                         case ' ':
+                            spawnedItems.Add(Instantiate(PillPrefab, new Vector3(x, 0, z), Quaternion.identity));
                             spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
                             break;
+                        case '.':
+                            spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
+                            break;
+
 
                         case 'P':
                             spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
 
                             if (Application.isPlaying)
-                                spawnedItems.Add(Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity));
+                            {
+                                var pc =
+                                    Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity) as GameObject;
+
+                                if (pc == null)
+                                    return false;
+
+                                Controller.Hero = pc.GetComponentInChildren<HeroController>();
+                                spawnedItems.Add(pc);
+                            }
 
                             break;
 
                         case 'G':
+                            spawnedItems.Add(Instantiate(PillPrefab, new Vector3(x,0, z), Quaternion.identity));
                             spawnedItems.Add(Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity));
 
                             if (Application.isPlaying)
