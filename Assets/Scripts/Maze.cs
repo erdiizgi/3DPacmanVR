@@ -46,6 +46,12 @@ public class Maze : MonoBehaviour
 
                         case 'P':
                             Instantiate(PlayerPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                            Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity);
+                            break;
+
+                        case 'G':
+                            //Instantiate(GhostPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                            Instantiate(FloorPrefab, new Vector3(x, -WallSize, z), Quaternion.identity);
                             break;
                     }
                     x += WallSize;
