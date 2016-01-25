@@ -4,6 +4,7 @@ using System.Collections;
 public class PillScript : MonoBehaviour
 {
 
+
     void OnTriggerEnter(Collider other)
     {
 
@@ -11,7 +12,11 @@ public class PillScript : MonoBehaviour
         if (pc == null)
             return;
 
-        Destroy(gameObject);
+
+        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<Collider>().enabled = false;
+        GetComponent<AudioSource>().Play();
+        Destroy(gameObject,1f);
 
 
         pc.Score++;

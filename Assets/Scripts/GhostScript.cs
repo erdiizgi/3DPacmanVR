@@ -68,7 +68,7 @@ public class GhostScript : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        Debug.Log("Exit " + collider.gameObject.name + " X: " + transform.position.x + " Z: " + transform.position.z);
+   //     Debug.Log("Exit " + collider.gameObject.name + " X: " + transform.position.x + " Z: " + transform.position.z);
         if (availableDirections.Contains(collider.gameObject.name))
             availableDirections.Remove(collider.gameObject.name);
     }

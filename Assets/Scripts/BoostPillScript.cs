@@ -20,7 +20,7 @@ public class BoostPillScript : MonoBehaviour
         Debug.Log("Trigger");
         Destroy(gameObject);
 
-        lvlControl.LevelControllerObject.FailLevel();
+       // lvlControl.LevelControllerObject.FailLevel();
     }
 
 
