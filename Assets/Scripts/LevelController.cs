@@ -36,5 +36,11 @@ public class LevelController : MonoBehaviour
     {
         return Games[current];
     }
+
+    public LevelController SetCurrentZero()
+    {
+        current = 0;
+        return this;
+    }
   
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -8,17 +10,28 @@ public class MainMenuController : MonoBehaviour
     public GameObject InfoPanel;
     public LevelController lvlController;
 
+    public Button BtnStart;
+    public Button BtnInfo;
+    public Button BtnExit;
+
+
     // Use this for initialization
     private void Start()
     {
         setPanels(true);
+
+        var eve = GameObject.FindGameObjectWithTag("EventSystem").GetComponent<EventSystem>();
+        //eve.SetSelectedGameObject(BtnStart.gameObject);
+
     }
 
     // Update is called once per frame
     private void Update()
     {
         if (!InfoPanel.activeSelf)
-            return;
+        {
+           return;
+        }
 
         if (Input.anyKey)
             closeAbout();

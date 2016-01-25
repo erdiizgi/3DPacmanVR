@@ -68,6 +68,6 @@ public class GhostScript : MonoBehaviour
 
     void OnTriggerStay(Collider collider)
     {
-        Debug.Log("Enter " + collider.gameObject.name + " X: " + transform.position.x + " Z: " + transform.position.z);
+      //  Debug.Log("Enter " + collider.gameObject.name + " X: " + transform.position.x + " Z: " + transform.position.z);
     }
 }

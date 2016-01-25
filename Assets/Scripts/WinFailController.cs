@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class WinFailController : MonoBehaviour
 {
@@ -14,6 +15,6 @@ public class WinFailController : MonoBehaviour
     void Update()
     {
         if (Input.anyKey)
-            Application.Quit();
+            SceneManager.LoadScene("Menu");
     }
 }
