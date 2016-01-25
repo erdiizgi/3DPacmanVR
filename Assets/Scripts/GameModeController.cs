@@ -25,7 +25,7 @@ public class GameModeController
         {
             new GameMode
             {
-                Name = "GameMode1",
+                Name = "GameModeClassic",
                 IsVRMode = false,
                 CharacterCanStop = true
             },
@@ -34,7 +34,14 @@ public class GameModeController
                 Name = "RunningMode",
                 IsVRMode = false,
                 CharacterCanStop = false
-            }
+            },
+             new GameMode
+            {
+                Name = "GameModeDPad",
+                IsVRMode = false,
+                CharacterCanStop = true,
+                IsDPadAlowed = true
+            },
         };
     }
 
