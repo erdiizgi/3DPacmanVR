@@ -32,12 +32,13 @@ public class GameController : MonoBehaviour
         if (Hero.Score == CreatedPills)
             LevelControllerObject.LoadNextLevel();
 
-        var newFire1Val = (int)Input.GetAxis("Fire1");
-        if (oldFire1Value == 0 && newFire1Val == 1)
+		bool newFire1Val = (Input.GetKeyDown (KeyCode.M)); // || Input.GetAxis("joystick button 0") > 0);
+	
+        if (oldFire1Value == 0 && newFire1Val)
         {
             GameModeController.Instance.SetNextMode();
         }
 
-        oldFire1Value = newFire1Val;
+        oldFire1Value = newFire1Val ? 1 : 0;
     }
 }

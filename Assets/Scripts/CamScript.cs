@@ -10,6 +10,8 @@ public class CamScript : MonoBehaviour {
 	public Vector3 rotation;
 	public GameObject cameraKeeper;
 
+	public Vector3 forward;
+
 	public float hRot;
     public float StickMultiplier;
 
@@ -68,15 +70,17 @@ public class CamScript : MonoBehaviour {
 
 
 		gameObject.transform.position = character.transform.position + target;
-		this.cameraKeeper.transform.position = character.transform.position + target;
+		//this.cameraKeeper.transform.position = character.transform.position + target;
 		gameObject.transform.eulerAngles = rotation;
-		this.cameraKeeper.transform.eulerAngles = rotation;
+		//this.cameraKeeper.transform.eulerAngles = rotation;
 		hRot += Input.GetAxis ("Mouse X") + Input.GetAxis("RightStick") * StickMultiplier;
 
 		//gameObject.transform.LookAt (character.transform.position);
-		gameObject.transform.eulerAngles += rotation;
-		this.cameraKeeper.transform.eulerAngles += rotation;
+		//gameObject.transform.eulerAngles += rotation;
+		//this.cameraKeeper.transform.eulerAngles += rotation;
 
+		this.forward = gameObject.transform.forward;
 
+		this.rotation.y = hRot;
 	}
 }
