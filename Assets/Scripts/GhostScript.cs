@@ -12,6 +12,8 @@ public class GhostScript : MonoBehaviour
 
     List<string> availableDirections; // Pájo, nedívej se
 
+    float floatyFloat;
+
     // Use this for initialization
     void Start()
     {
@@ -19,6 +21,8 @@ public class GhostScript : MonoBehaviour
         targetPosition = transform.position;
 
         availableDirections = new List<string>();
+
+        floatyFloat = 0f;
 
         lvlControl = FindObjectOfType<GameController>();
     }
@@ -32,6 +36,12 @@ public class GhostScript : MonoBehaviour
         }
 
         transform.position = transform.position + directionVector * speed;
+
+        floatyFloat += Time.fixedDeltaTime;
+        float floatySin = 0.7f + 0.2f * Mathf.Sin(floatyFloat * 4.0f);
+
+        transform.position = new Vector3(transform.position.x, floatySin, transform.position.z);
+        targetPosition = new Vector3(targetPosition.x, floatySin, targetPosition.z);
     }
 
     void OnTriggerEnter(Collider collider)
