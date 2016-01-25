@@ -36,11 +36,24 @@ public class PlayerController : MonoBehaviour
     {
 		if (camera == null)
 			return;
-		
-        var forward = camera.transform.forward * Input.GetAxis("Vertical");
+
+        var currentMode = GameModeController.Instance.GetCurrent;
+
+        var fw = 0f;
+        if (!currentMode.CharacterCanStop)
+        {
+            fw = 1;
+        }
+        else
+        {
+            fw = Input.GetAxis(currentMode.IsDPadAlowed ? "X360_D_Pad_Y" : "Vertical");
+        }
+        var forward = camera.transform.forward * fw;
 		forward.y = 0;
 
-        var right = camera.transform.right * Input.GetAxis("Horizontal");
+
+        var rt = Input.GetAxis(currentMode.IsDPadAlowed ? "X360_D_Pad_X" : "Horizontal");
+        var right = camera.transform.right * rt;
 		right.y = 0;
 
         rBody.velocity = (forward + right) * MoveSpeed;

@@ -6,4 +6,6 @@ public class GameMode
     public string Name;
     public bool IsVRMode;
     public bool CharacterCanStop;
+    public bool IsDPadAlowed;
+   
 }
