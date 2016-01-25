@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 		if (camera == null) {
-			camera = GameObject.Find ("Camera");
+			camera = GameObject.Find ("CameraManager");
 		}
 
 
@@ -39,9 +39,11 @@ public class PlayerController : MonoBehaviour
 		
         var forward = camera.transform.forward * Input.GetAxis("Vertical");
 		forward.y = 0;
+		forward.Normalize ();
 
         var right = camera.transform.right * Input.GetAxis("Horizontal");
 		right.y = 0;
+		right.Normalize ();
 
         rBody.velocity = (forward + right) * MoveSpeed;
         //rBody.angularVelocity = Vector3.up * 10 * Input.GetAxis("Mouse X");

@@ -23,7 +23,7 @@ public class CamScript : MonoBehaviour {
 		
 		if(Input.GetKeyDown(KeyCode.R))
 		{
-			InputTracking.Recenter();	
+			OVRManager.display.RecenterPose ();
 		}
 
 		if(Input.GetKey(KeyCode.Alpha1))
@@ -71,9 +71,9 @@ public class CamScript : MonoBehaviour {
 		this.cameraKeeper.transform.position = character.transform.position + target;
 		gameObject.transform.eulerAngles = rotation;
 		this.cameraKeeper.transform.eulerAngles = rotation;
-		//hRot += Input.GetAxis ("Mouse X") + Input.GetAxis("RightStick") * StickMultiplier;
+		hRot += Input.GetAxis ("Mouse X") + Input.GetAxis("RightStick") * StickMultiplier;
 
-		gameObject.transform.LookAt (character.transform.position);
+		//gameObject.transform.LookAt (character.transform.position);
 		gameObject.transform.eulerAngles += rotation;
 		this.cameraKeeper.transform.eulerAngles += rotation;
 
